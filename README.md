@@ -1,0 +1,1 @@
+# chemsh-wrapper4enlighten-plugin
