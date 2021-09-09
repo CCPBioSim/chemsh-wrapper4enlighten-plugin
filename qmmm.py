@@ -92,7 +92,7 @@ def main():
             'climbing_image' : 'yes', 
             'qm_region' : [], 
             'qm_charge' : [],
-            'active_region' : 'qm_region'}
+            'active_region' : 'indicies_qm_region'}
 
     if args.params is not None:
         params.update(json.load(args.params))
