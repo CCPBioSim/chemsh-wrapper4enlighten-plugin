@@ -31,3 +31,7 @@ RUN tar -xzvf chemsh-py.tar.gz
 WORKDIR chemsh-py
 RUN ./setup --fc gfortran --cc gcc --dl_poly /bin/dl_poly_4.09
 RUN ln -s /bin/chemsh-py/bin/gnu/chemsh /bin/
+
+COPY qmmm.py /bin
+RUN chmod +x /bin/qmmm.py
+WORKDIR /tmp
