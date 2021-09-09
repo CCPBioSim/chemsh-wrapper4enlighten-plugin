@@ -32,6 +32,10 @@ WORKDIR chemsh-py
 RUN ./setup --fc gfortran --cc gcc --dl_poly /bin/dl_poly_4.09
 RUN ln -s /bin/chemsh-py/bin/gnu/chemsh /bin/
 
+# Ugly fix to make py-chemshell happy without user (no $HOME etc.)
+RUN sed -i "s|path.expanduser('~')|'/tmp'|g" /bin/chemsh
+RUN sed -i "s/getuser()/' '/g" /bin/chemsh
+
 COPY qmmm.py /bin
 RUN chmod +x /bin/qmmm.py
 WORKDIR /tmp
