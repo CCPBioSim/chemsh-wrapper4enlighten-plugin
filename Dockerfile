@@ -20,6 +20,10 @@ RUN ln -s ../build/Makefile_SRL2 Makefile; make FCFLAGS=-DSERIAL gnu
 COPY dftbplus-21.1.x86_64-linux.tar.xz /bin
 WORKDIR /bin
 RUN tar -xvf dftbplus-21.1.x86_64-linux.tar.xz
+RUN mkdir /bin/dftbplus-21.1.x86_64-linux/data
+WORKDIR /bin/dftbplus-21.1.x86_64-linux/data
+COPY mio-1-1.tar.xz ./
+RUN tar -xvf mio-1-1.tar.xz
 
 COPY chemsh-py.tar.gz /bin
 WORKDIR /bin
