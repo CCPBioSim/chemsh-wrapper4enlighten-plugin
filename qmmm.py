@@ -82,8 +82,8 @@ def main():
     # nimages is for NEB calculations
     # type of calculation (single point or optimization)
     params = {'qm_engine' : 'DFTBplus', 
-            'qm_path' : '~/dftb/bin/dftb+', 
-            'skf_path' : '~/dftb/slakos/mio-1-1/',
+            'qm_path' : '/bin/dftbplus-21.1.x86_64-linux/bin/dftb+',
+            'skf_path' : '/bin/dftbplus-21.1.x86_64-linux/data/mio-1-1/',
             'qm_method' : 'am1', 
             'multiplicity' : 1, 
             'scftype' : 'rhf', 
