@@ -52,6 +52,7 @@ class ChemShellWrapper(object):
         chemsh_input = ('../'+ pychemsh +'.py')
 
         # run Py-ChemShell command
+        print("Running Py-ChemShell")
         chemshell_command = ('chemsh ' + chemsh_input)
         with open('chemshell.out', 'w') as f:
             proc = subprocess.Popen(chemshell_command, shell=True, stdout=f,
@@ -63,6 +64,7 @@ def main():
 
     # get input coordinates and topology
     parser = argparse.ArgumentParser(description="Runs a QM/MM calculation\n", formatter_class=argparse.RawDescriptionHelpFormatter)
+    print("Preparing to run a QM/MM calculation.")
 
     parser.add_argument("type", help="type of calculation: sp, opt, neb")
     parser.add_argument("params", help="JSON file with parameters", type=argparse.FileType())
@@ -89,7 +91,7 @@ def main():
             'scftype' : 'rhf', 
             'maxcycles' : 100, 
             'nimages' : 8, 
-            'climbing_image' : 'yes', 
+            'climbing_image' : 'no', 
             'qm_region' : [], 
             'qm_charge' : [],
             'active_region' : 'indicies_qm_region'}
@@ -108,9 +110,11 @@ def main():
     active_region = params['active_region']
 
     # read charges from topology file (amber charges must be divided by 18.2223 to get the units right)
+    print("Getting charges")
     charges = get_amber_charges(args.parmtop.name)
 
     # create Py-ChemShell input file
+    print("Writing pychemsh.py")
     with open('pychemsh.py', 'w') as f:
         f.write("from chemsh import * \n")
         f.write("my_enzyme = Fragment(coords='../{}', charges={})\n".format(args.reactants.name,charges))
@@ -134,7 +138,7 @@ def main():
         if args.type == 'neb':
             f.write("product = Fragment(coords='{}')\n".format(args.products.name))
             f.write("product.save('new2.pdb')\n")
-            f.write("my_neb = Opt(theory=my_qmmm, active={}, neb='frozen', frag2=product, nimages={}, nebk=0.01, neb_climb_test=3.0, neb_freeze_test=1.0, coordinates='cartesian', maxstep=0.9, trust_radius='const',)\n".format(active_region,nimages))
+            f.write("my_neb = Opt(theory=my_qmmm, active={}, neb='frozen', frag2=product, nimages={}, nebk=0.01, neb_climb_test=0.0, neb_freeze_test=1.0, coordinates='cartesian', maxstep=0.9, trust_radius='const',)\n".format(active_region,nimages))
             f.write("my_neb.run(dryrun=False)\n")
 
 
