@@ -70,7 +70,7 @@ def main():
     parser.add_argument("params", help="JSON file with parameters", type=argparse.FileType())
     parser.add_argument("parmtop", help="topology information", type=argparse.FileType())
     parser.add_argument("reactants", help="file for the initial coordinates of the system", type=argparse.FileType())
-    parser.add_argument("-p","-products", help="file for the final coordinates of the system for neb only", type=argparse.FileType())
+    parser.add_argument("-p", help="file for the final coordinates of the system for neb only", type=argparse.FileType())
 
     args = parser.parse_args()
 
@@ -136,7 +136,7 @@ def main():
             f.write("my_opt = Opt(theory=my_qmmm, active={})\n".format(active_region))
             f.write("my_opt.run(dryrun=False)\n")
         if args.type == 'neb':
-            f.write("product = Fragment(coords='{}')\n".format(args.products.name))
+            f.write("product = Fragment(coords='../{}')\n".format(args.p.name))
             f.write("product.save('new2.pdb')\n")
             f.write("my_neb = Opt(theory=my_qmmm, active={}, neb='frozen', frag2=product, nimages={}, nebk=0.01, neb_climb_test=0.0, neb_freeze_test=1.0, coordinates='cartesian', maxstep=0.9, trust_radius='const',)\n".format(active_region,nimages))
             f.write("my_neb.run(dryrun=False)\n")
