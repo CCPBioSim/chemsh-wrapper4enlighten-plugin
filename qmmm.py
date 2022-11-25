@@ -89,7 +89,7 @@ def main():
             'qm_method' : 'am1', 
             'multiplicity' : 1, 
             'scftype' : 'rhf', 
-            'maxcycles' : 100, 
+            'maxcycles' : 200, 
             'nimages' : 8, 
             'climbing_image' : 'no', 
             'qm_region' : [], 
@@ -104,6 +104,7 @@ def main():
     qm_engine = params['qm_engine']
     qm_method = params['qm_method']
     multiplicity = params['multiplicity']
+    maxcycles = params['maxcycles']
     skf_path = params['skf_path']
     qm_path = params['qm_path']
     nimages = params['nimages']
@@ -124,10 +125,10 @@ def main():
         f.write("frag_qm_region.save('qm_region.pdb')\n")
         f.write("qm_charge = {}\n".format(qm_charge))
         if qm_engine == 'DFTBplus':
-            f.write("my_qm = {}(charge = {}, mult = {}, skf_path='{}', path = '{}',)\n".format(qm_engine,qm_charge,multiplicity,skf_path,qm_path))
+            f.write("my_qm = {}(charge = {}, mult = {}, maxcyc = {}, skf_path='{}', path = '{}',)\n".format(qm_engine,qm_charge,multiplicity,maxcycles,skf_path,qm_path))
         else:
             f.write("my_qm = {}(method = '{}', charge = {}, mult = {}, path = '{}',)\n".format(qm_engine,qm_method,qm_charge,multiplicity,qm_path))
-        f.write("my_mm = DL_POLY(ff='../{}', rcut=999.99)\n".format(args.parmtop.name))
+        f.write("my_mm = DL_POLY(ff='../{}', rcut=99.99)\n".format(args.parmtop.name))
         f.write("my_qmmm = QMMM(frag = my_enzyme, qm = my_qm, mm = my_mm, qm_region = indicies_qm_region,)\n")
         if args.type == 'sp':
             f.write("my_sp = SP(theory=my_qmmm)\n")
